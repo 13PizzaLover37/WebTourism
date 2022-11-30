@@ -1,0 +1,17 @@
+﻿@page "/advertisement"
+
+
+<h3>Advertisement</h3>
+
+@foreach (var item in listOrders)
+{
+    
+    <div class="card" style="width: 18rem; margin-top: 20px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@item.Header</h5>
+            <p class="card-text">@item.Text .</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+}
