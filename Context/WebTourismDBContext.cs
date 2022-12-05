@@ -131,6 +131,10 @@ namespace WebTourism.Context
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newid())");
 
+                entity.Property(e => e.City).HasMaxLength(50);
+
+                entity.Property(e => e.Country).HasMaxLength(25);
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("Created_At")
@@ -142,7 +146,8 @@ namespace WebTourism.Context
 
                 entity.Property(e => e.IsActive)
                     .HasMaxLength(1)
-                    .HasColumnName("isActive");
+                    .IsUnicode(false)
+                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);

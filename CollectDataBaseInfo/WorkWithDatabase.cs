@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebTourism.Context;
 using WebTourism.Models;
 
 namespace WebTourism.CollectDataBaseInfo
 {
-    public class WorkWithDatabase     
+    public class WorkWithDatabase
     {
-        private IServiceScopeFactory serviceScope { get; set; } // = null;
+        private IServiceScopeFactory serviceScope { get; set; } 
         public WorkWithDatabase(IServiceScopeFactory webHostEnvironment)
         {
             this.serviceScope = webHostEnvironment;
@@ -21,6 +20,23 @@ namespace WebTourism.CollectDataBaseInfo
                 List<Models.Posts> activePosts = context.Posts.Where(elem => elem.IsActive == "1").ToList();
 
                 return activePosts;
+            }
+        }
+
+        public async Task CreateNewPostAsync(Posts post)
+        {
+            using (IServiceScope scope = serviceScope.CreateScope())
+            {
+                try
+                {
+                    WebTourismDBContext context = scope.ServiceProvider.GetRequiredService<WebTourismDBContext>();
+                    await context.Posts.AddAsync(post);
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
@@ -64,7 +80,8 @@ namespace WebTourism.CollectDataBaseInfo
                     postForUpdate.Header = postFromJson?.Header == null ? postForUpdate?.Header : postFromJson?.Header;
                     return true;
 
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     return false;
                 }

@@ -6,17 +6,13 @@ namespace WebTourism.Pages
     public partial class Advertisement
     {
         [Inject]
-        private IServiceScopeFactory serviceScopeFactory { get; set; }
+        private WorkWithDatabase _workWithDatabase { get; set; }
 
         private List<Models.Posts> listOrders = new List<Models.Posts>();
-        protected override async void OnAfterRender(bool firstRender)
+        protected override async Task OnInitializedAsync()
         {
-            if (firstRender)
-            {
-                WorkWithDatabase workWithDatabase = new WorkWithDatabase(serviceScopeFactory);
-                listOrders = await workWithDatabase.GetActivePostsAsync();
-                StateHasChanged();
-            }
+            listOrders = await _workWithDatabase.GetActivePostsAsync();
+            base.OnInitialized();
         }
     }
 }

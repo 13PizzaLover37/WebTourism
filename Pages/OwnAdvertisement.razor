@@ -1,0 +1,31 @@
+﻿@page "/ownadvertisement"
+<h3>Twoje oglszenia</h3>
+<NavLink class="nav-link" href="/addadvertisement" Match="NavLinkMatch.All">
+    <span class="oi oi-home" aria-hidden="true"> Dodaj ogłoszenie</span>
+</NavLink>
+
+@if(Posts.Count == 0){
+    <p>Nie ma jeszcze twoich ogłoszeń</p>
+} else{
+    <div class="col-md-6">
+        @foreach (var item in Posts)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="card" style="width: 18rem; margin-top: 10px">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Header</h5>
+                                <p class="card-subtitle">@item.Country</p>
+                                <p class="card-subtitle">@item.City</p>
+                                <p class="card-text">@item.Text.</p>
+                                <p href="#" class="btn btn-primary">Edytuj</p>
+                                <p @onclick="(() => DeleteRecord(item.Id))" class="btn btn-danger">Usuń</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using WebTourism.CollectDataBaseInfo;
-using WebTourism.Models;
 
 namespace WebTourism.Controllers
 {
@@ -9,11 +8,14 @@ namespace WebTourism.Controllers
     [ApiController]
     public class InsertTicketsController : ControllerBase
     {
+        // thanks Blazor, we can inject our class that manage db connection and 
+        // another necessary staff with db
         [Inject]
         WorkWithDatabase? workWithDatabase { get; set; }
         public IServiceScopeFactory _serviceScopeFactory { get; set; }
 
-        public InsertTicketsController(IServiceScopeFactory serviceScopeFactory) {
+        public InsertTicketsController(IServiceScopeFactory serviceScopeFactory)
+        {
             _serviceScopeFactory = serviceScopeFactory;
             workWithDatabase = new WorkWithDatabase(_serviceScopeFactory);
         }
@@ -22,6 +24,13 @@ namespace WebTourism.Controllers
         public async Task<List<Models.Posts>> GetFuncAsync()
         {
             List<Models.Posts> posts = await workWithDatabase?.GetActivePostsAsync();
+            return posts;
+        }
+
+        [HttpGet("{guid}")]
+        public async Task<List<Models.Posts>> GetFuncAsync(Guid guid)
+        {
+            List<Models.Posts> posts = await workWithDatabase?.GetPostsByCreatorIDAsync(guid);
             return posts;
         }
 
