@@ -30,6 +30,8 @@ namespace WebTourism.CollectDataBaseInfo
                 try
                 {
                     WebTourismDBContext context = scope.ServiceProvider.GetRequiredService<WebTourismDBContext>();
+                    post.Id = Guid.NewGuid();
+                    post.IsActive = "1";
                     await context.Posts.AddAsync(post);
                     await context.SaveChangesAsync();
                 }

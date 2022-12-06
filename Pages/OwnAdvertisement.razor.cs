@@ -24,8 +24,11 @@ namespace WebTourism.Pages
 
         private async void DeleteRecord(Guid guid)
         {
-            await _workWithDatabase.DeletePostByIDAsync(guid);
-            StateHasChanged();
+            if (await _workWithDatabase.DeletePostByIDAsync(guid))
+            {
+                Posts = await _workWithDatabase.GetPostsByCreatorIDAsync(userID);
+                StateHasChanged();
+            }
         }
     }
 }

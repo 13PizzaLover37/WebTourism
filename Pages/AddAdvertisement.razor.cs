@@ -23,7 +23,6 @@ namespace WebTourism.Pages
             var user = await authenticationStateTask;
             userID = Guid.Parse(user.User.Claims.FirstOrDefault().Value);
 
-            post.IsActive = "1";
             post.CreatorId = userID;
             workWithDatabase.CreateNewPostAsync(post);
         }
